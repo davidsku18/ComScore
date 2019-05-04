@@ -1,10 +1,4 @@
-import csv
+import pandas
 
-filepath = 'sampleData.csv'
-csv.register_dialect('piper', delimiter='|', quoting=csv.QUOTE_NONE)
-
-with open(filepath, "r") as csvfile:
-    reader = csv.DictReader(csvfile, dialect='piper')
-    for row in reader:
-        print(row)
-        print('\n')
+df = pandas.read_csv('sampleData.csv', sep='|', index_col='STB')
+print(df)
