@@ -1,20 +1,19 @@
 import pandas as pd
-import sqlite3
+import os.path
+import sqlalchemy
 
-filepath = 'data.csv'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR, "movie.db")
 
-def create_table():
-    # Parses csv to dataframe object
-    df = pd.read_csv('sampleData.csv', sep='|')
+# Parses csv to dataframe object
+df = pd.read_csv('sampleData.csv', sep='|')
+df['VIEW_TIME'] = pd.to_datetime(df['VIEW_TIME'], format='%H:%M').dt.time
+df['DATE'] = pd.to_datetime(df['DATE'], format='%Y-%m-%d').dt.date
 
-    # Connecting to the sqlite3
-    conn = sqlite3.connect('movie.db')
-    c = conn.cursor()
+# Connecting to the sqlite3
+engine = sqlalchemy.create_engine('sqlite:///' + db_path)
 
-    # Dataframe object to database
-    df.to_sql(name = 'movie', con = conn, if_exists = 'replace')
+# Dataframe object to database
+df.to_sql(name = 'movie', con = engine, if_exists = 'replace')
 
-
-def show_all():
-    create_table()
-    c.execute("SELECT * FROM movie").fetchall()
+engine.execute("SELECT * FROM movie")
