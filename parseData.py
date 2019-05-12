@@ -1,15 +1,14 @@
 import pandas as pd
 import os.path
-import sqlalchemy
+import sqlite3
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-db_path = os.path.join(BASE_DIR, "movie.db")
-
-# Connecting to sqlite3
-engine = sqlalchemy.create_engine('sqlite:///' + db_path)
+# Connecting to sqlite3 and storing into main memory
+conn = sqlite3.connect(':memory:')
+cur = conn.cursor()
 
 # Parses csv file and creates table
 def create_table():
+    buffer = ''
     # Parses csv to dataframe object
     df = pd.read_csv('sampleData.csv', sep='|')
 
@@ -23,4 +22,4 @@ def create_table():
     df = df.drop_duplicates(subset=['STB', 'TITLE', 'DATE'])
 
     # Dataframe object to sql database, if exists then overwrite
-    df.to_sql(name='movie', con=engine, if_exists='replace')
+    df.to_sql(name='movie', con=conn, if_exists='replace')
