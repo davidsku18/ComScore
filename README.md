@@ -4,7 +4,7 @@ Installation required:
 pandas : 'pip3 install pandas'
 
 This program parses and queries a given csv file separated by '|'
-To run the program: python3 parseData.py
+To run the program: python3 query.py
  - This will parse the sampleData.csv and save the datastore to memory
  - Data is unique by STB, TITLE, and DATE
  - The data will then be printed to the screen
