@@ -12,6 +12,7 @@ parser = argparse.ArgumentParser(description='Process queries')
 parser.add_argument("-s", "--SELECT", nargs='+', help="Selects the specified column")
 parser.add_argument("-o", "--ORDER", nargs='+', help="The column(s) that the data will be ordered with")
 parser.add_argument("-f", "--FILTER", nargs='+', help="Finds the specified data")
+parser.add_argument("-g", "--GROUP", nargs='+', help="Groups the data in the specified manner")
 args = parser.parse_args()
 
 # Gets the SELECT arguments
@@ -27,12 +28,22 @@ def get_select():
 # Gets the ORDER arguments
 def get_order():
     if(args.ORDER is not None):
-        order = ', '.join(args.ORDER)
-        order = 'ORDER BY ' + order
+        order = 'ORDER BY '
+        order = order + ', '.join(args.ORDER)
         return order
     else:
         order = ''
         return order
+
+# Gets the GROUP arguments
+def get_grouping():
+    if(args.GROUP is not None):
+        grouping = 'GROUP BY '
+        grouping = grouping + ', '.join(args.GROUP)
+        return grouping
+    else:
+        grouping = ''
+        return grouping
 
 # Gets the FILTER arguments
 def get_filter():
@@ -61,6 +72,6 @@ def get_filter():
         filter = ''
         return filter
 
-print('SQL QUERY: ' + get_select() + ' FROM movie ' + get_filter() + get_order() + ";")
+print('SQL QUERY: ' + get_select() + ' FROM movie ' + get_filter() + get_grouping() + get_order() + ";")
 # Applies the query and prints the table
-print(pd.read_sql_query(sql=get_select() + ' FROM movie ' + get_filter() + get_order() + ";", con=conn))
+print(pd.read_sql_query(sql=get_select() + ' FROM movie ' + get_filter() + get_grouping() + get_order() + ";", con=conn))
