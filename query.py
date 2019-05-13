@@ -39,7 +39,7 @@ def get_order():
 def get_grouping():
     if(args.GROUP is not None):
         grouping = 'GROUP BY '
-        grouping = grouping + ', '.join(args.GROUP)
+        grouping = grouping + ', '.join(args.GROUP) + ' '
         return grouping
     else:
         grouping = ''
