@@ -1,5 +1,4 @@
 import pandas as pd
-import os.path
 import sqlite3
 import argparse
 
@@ -36,8 +35,13 @@ args = parser.parse_args()
 # Gets the SELECT arguments
 def get_select():
     if(args.SELECT is not None):
-        select = ', '.join(args.SELECT)
-        select = 'SELECT ' + select
+        select = 'SELECT '
+        for arg in args.SELECT:
+            if(':' in arg):
+                select_with_arg = ''.join(arg).split
+                select_with_arg = ''
+            else:
+                select = select + ', '.join(args.SELECT)
         return select
     else:
         select = 'SELECT *'
@@ -56,11 +60,27 @@ def get_order():
 # Gets the FILTER arguments
 def get_filter():
     if(args.FILTER is not None):
-        filter = filter = ''.join(args.FILTER).split('=')
-        filter = 'WHERE ' + filter[0] + ' = ' + "'" + filter[1] + "'"
+        filter = 'WHERE '
+        separate_args = ''.join(args.FILTER).split(',')
+        for i, arg in enumerate(separate_args):
+            if(i is not len(separate_args) and i is not len(separate_args) - 1):
+                if('REV' not in arg):
+                    filter_argument = ''.join(arg).split('=')
+                    print(filter_argument)
+                    filter = filter + filter_argument[0] + " = " + "'" + filter_argument[1] + "'" + ' AND '
+                else:
+                    filter = filter + arg + ' AND '
+            elif(i is len(separate_args)-1):
+                if('REV' not in arg):
+                    filter_argument = ''.join(arg).split('=')
+                    print(filter_argument)
+                    filter = filter + filter_argument[0] + " = " + "'" + filter_argument[1] + "' "
+                else:
+                    filter = filter + arg + ' '
         return filter
     else:
         filter = ''
         return filter
 
+print('SQL QUERY: ' + get_select() + ' FROM movie ' + get_filter() + get_order() + ";")
 print(pd.read_sql_query(sql=get_select() + ' FROM movie ' + get_filter() + get_order() + ";", con=conn))
