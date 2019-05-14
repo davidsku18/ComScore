@@ -15,11 +15,26 @@ parser.add_argument("-f", "--FILTER", nargs='+', help="Finds the specified data"
 parser.add_argument("-g", "--GROUP", nargs='+', help="Groups the data in the specified manner")
 args = parser.parse_args()
 
-# Gets the SELECT arguments
+# Gets the SELECT arguments and parses the aggregate functions
 def get_select():
     if(args.SELECT is not None):
         select = 'SELECT '
-        select = select + ', '.join(args.SELECT)
+        separate_args = ''.join(args.SELECT).split(',')
+        for i, arg in enumerate(separate_args):
+            # Adds a ',' so that multiple selects and aggregate functions can be combined
+            if(i is not len(separate_args) and i is not len(separate_args) - 1):
+                if(':' in arg):
+                    select_argument = ''.join(arg).split(':')
+                    select = select + select_argument[1] + '(' + select_argument[0] + '), '
+                else:
+                    select = select + arg + ', '
+            # Last element of list and must not contain ','
+            elif(i is len(separate_args)-1):
+                if(':' in arg):
+                    select_argument = ''.join(arg).split(':')
+                    select = select + select_argument[1] + '(' + select_argument[0] + ')'
+                else:
+                    select = select + arg
         return select
     else:
         select = 'SELECT *'
