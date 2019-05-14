@@ -1,3 +1,10 @@
+"""
+    File name: query.py
+    Author: Kurtis Davidson
+    Date created: 5/13/2019
+    Date last modified: 5/13/2019
+    Python Version: 3.7.3
+"""
 import argparse
 import pandas as pd
 import parseData

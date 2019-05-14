@@ -1,3 +1,11 @@
+"""
+    File name: parseData.py
+    Author: Kurtis Davidson
+    Date created: 5/3/2019
+    Date last modified: 5/13/2019
+    Python Version: 3.7.3
+"""
+
 import pandas as pd
 
 # Parses csv file and returns a dataframe object
