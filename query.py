@@ -72,16 +72,32 @@ def get_filter():
         for i, arg in enumerate(separate_args):
             # Adds AND so that filters can be combined
             if(i is not len(separate_args) and i is not len(separate_args) - 1):
-                if('REV' not in arg):
+                if('REV' not in arg and 'AND' not in arg and 'OR' not in arg):
                     filter_argument = ''.join(arg).split('=')
                     filter = filter + filter_argument[0] + " = " + "'" + filter_argument[1] + "'" + ' AND '
+                # Checks for OR in arg to see if it's an 'advanced filter'
+                elif('OR' in arg):
+                    filter_argument = ''.join(arg)
+                    filter = filter + filter_argument + ' AND '
+                # Checks for AND in arg to see if it's an 'advanced filter'
+                elif('AND' in arg):
+                    filter_argument = ''.join(arg)
+                    filter = filter + filter_argument + ' AND '
                 else:
                     filter = filter + arg + ' AND '
             # Last element of list must not have an AND
             elif(i is len(separate_args)-1):
-                if('REV' not in arg):
+                if('REV' not in arg and 'AND' not in arg and 'OR' not in arg):
                     filter_argument = ''.join(arg).split('=')
                     filter = filter + filter_argument[0] + " = " + "'" + filter_argument[1] + "' "
+                # Checks for OR in arg to see if it's an 'advanced filter'
+                elif('OR' in arg):
+                    filter_argument = ''.join(arg)
+                    filter = filter + filter_argument
+                # Checks for AND in arg to see if it's an 'advanced filter'
+                elif('AND' in arg):
+                    filter_argument = ''.join(arg)
+                    filter = filter + filter_argument
                 else:
                     filter = filter + arg + ' '
         return filter
