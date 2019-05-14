@@ -36,6 +36,7 @@ def get_select():
                 else:
                     select = select + arg
         return select
+    # Empty select: Default to select everything to display data
     else:
         select = 'SELECT *'
         return select
@@ -46,6 +47,7 @@ def get_order():
         order = 'ORDER BY '
         order = order + ', '.join(args.ORDER)
         return order
+    # Empty order
     else:
         order = ''
         return order
@@ -57,6 +59,7 @@ def get_grouping():
         grouping = grouping + ', '.join(args.GROUP) + ' '
         return grouping
     else:
+        # Empty grouping
         grouping = ''
         return grouping
 
@@ -87,6 +90,8 @@ def get_filter():
         filter = ''
         return filter
 
+# Shows the query that is being used from the command line in SQL form
 print('SQL QUERY: ' + get_select() + ' FROM movie ' + get_filter() + get_grouping() + get_order() + ";")
+
 # Applies the query and prints the table
 print(pd.read_sql_query(sql=get_select() + ' FROM movie ' + get_filter() + get_grouping() + get_order() + ";", con=conn))
