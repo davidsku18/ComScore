@@ -19,7 +19,7 @@ To run the program: python3 query.py
   - "-f" or "--FILTER" to filter the data as specified
     - ex: "python3 query.py -s TITLE, DATE, REV -f REV>4.0"
     - ex: "python3 query.py -s TITLE, DATE, REV -f DATE=2014-04-02,REV>=4.0"
-    - When filtering text with a space, quotes can surround the text so that the word isn't take as multiple arguments:
+    - When filtering text with a space, quotes must surround the text so that the words aren't taken as multiple arguments:
       - ex: "python3 query.py -s TITLE, DATE, REV -f TITLE='the matrix'"
   - "-g" or "--GROUP" to group the data as specified
     - ex: "python3 query.py -s TITLE, DATE, REV, -g TITLE"
@@ -37,4 +37,4 @@ To run the program: python3 query.py
     - ex: "python3 query.py -s TITLE, DATE, 'DISTINCT REV':count"
 
 - To utilize advanced filters, '"' (double quotes) must be used around the filter argument while "'" (single quotes) must be used around text within the argument:
-  - ex: "python3 query.py -f "STB='stb1' AND TITLE='the hobbit' OR TITLE='the matrix'"
+  - ex: python3 query.py -f "STB='stb1' AND TITLE='the hobbit' OR TITLE='the matrix'"
