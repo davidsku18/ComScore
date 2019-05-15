@@ -100,11 +100,11 @@ def get_filter():
                 # Checks for OR in arg to see if it's an 'advanced filter'
                 elif('OR' in arg):
                     filter_argument = ''.join(arg)
-                    filter = filter + filter_argument
+                    filter = filter + filter_argument + ' '
                 # Checks for AND in arg to see if it's an 'advanced filter'
                 elif('AND' in arg):
                     filter_argument = ''.join(arg)
-                    filter = filter + filter_argument
+                    filter = filter + filter_argument + ' '
                 else:
                     filter = filter + arg + ' '
         return filter
