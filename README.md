@@ -33,8 +33,8 @@ To run the program: python3 query.py
     - ex: "python3 query.py -s TITLE, DATE, REV:sum"
   - COUNT: count the distinct values in a column
     - ex: "python3 query.py -s TITLE, DATE, REV:count"
-  - COLLECT: collect the distinct values in a column (collect function does not exist in sqlite3 so DISTINCT needs to be added)
-    - ex: "python3 query.py -s TITLE, DATE, 'DISTINCT REV':count"
+  - COLLECT: collect the distinct values in a column
+    - ex: "python3 query.py -s TITLE, DATE, REV:collect"
 
 - To utilize advanced filters, '"' (double quotes) must be used around the filter argument while "'" (single quotes) must be used around text within the argument:
   - ex: python3 query.py -f "STB='stb1' AND TITLE='the hobbit' OR TITLE='the matrix'"

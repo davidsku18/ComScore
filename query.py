@@ -30,16 +30,24 @@ def get_select():
         for i, arg in enumerate(separate_args):
             # Adds a ',' so that multiple selects and aggregate functions can be combined
             if(i is not len(separate_args) and i is not len(separate_args) - 1):
-                if(':' in arg):
+                if(':' in arg and ':collect' not in arg):
                     select_argument = ''.join(arg).split(':')
                     select = select + select_argument[1] + '(' + select_argument[0] + '), '
+                # Checks if aggregate function is ':collect' and adds 'DISTINCT' + selected column
+                elif(':collect' in arg):
+                    select_argument = ''.join(arg).split(':')
+                    select = select + 'COUNT(DISTINCT ' + select_argument[0] + '), '
                 else:
                     select = select + arg + ', '
             # Last element of list and must not contain ','
             elif(i is len(separate_args)-1):
-                if(':' in arg):
+                if(':' in arg and ':collect' not in arg):
                     select_argument = ''.join(arg).split(':')
                     select = select + select_argument[1] + '(' + select_argument[0] + ')'
+                # Checks if aggregate function is ':collect' and adds 'DISTINCT' + selected column
+                elif(':collect' in arg):
+                    select_argument = ''.join(arg).split(':')
+                    select = select + 'COUNT(DISTINCT ' + select_argument[0] + ')'
                 else:
                     select = select + arg
         return select
